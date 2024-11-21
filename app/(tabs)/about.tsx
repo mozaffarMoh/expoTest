@@ -6,16 +6,14 @@ const LeftContent = (props: any) => <Avatar.Icon {...props} icon="folder" />;
 const about = () => {
   return (
     <View style={styles.app}>
-      <Text  variant="titleLarge">
-        About
-      </Text>
-      <Button
+      <Text variant="titleLarge">About</Text>
+{/*       <Button
         icon="camera"
         mode="contained"
         onPress={() => console.log("Pressed")}
       >
         Press me
-      </Button>
+      </Button> */}
 
       <Card style={styles.card}>
         <Card.Title
@@ -40,13 +38,13 @@ const about = () => {
 const styles: any = StyleSheet.create({
   app: {
     flex: 1,
-    gap:10,
+    gap: 10,
     alignItems: "center",
     justifyContent: "center",
   },
-  card:{
-    width:'80%'
-  }
+  card: {
+    width: "80%",
+  },
 });
 
 export default about;
