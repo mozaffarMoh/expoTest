@@ -7,13 +7,13 @@ const about = () => {
   return (
     <View style={styles.app}>
       <Text variant="titleLarge">About</Text>
-{/*       <Button
+      <Button
         icon="camera"
         mode="contained"
         onPress={() => console.log("Pressed")}
       >
-        Press me
-      </Button> */}
+       Test 3
+      </Button>
 
       <Card style={styles.card}>
         <Card.Title
