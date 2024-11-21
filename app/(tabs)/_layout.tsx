@@ -10,7 +10,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
         headerShown: false,
       }}
     >
@@ -25,7 +25,31 @@ export default function TabLayout() {
             />
           ),
         }}
-      />{" "}
+      />
+      <Tabs.Screen
+        name="about"
+        options={{
+          title: "About",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "information" : "information-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="services"
+        options={{
+          title: "Services",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "shapes" : "shapes-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

@@ -233,7 +233,7 @@ export default function HomeScreen() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.app}>
-   {/*      <View style={styles.result}>
+        <View style={styles.result}>
           {operator && result != "Infinity" && (
             <View style={styles.flexEnd}>
               <Text style={styles.resultText}>
@@ -253,7 +253,7 @@ export default function HomeScreen() {
               </Text>
             )}
           </View>
-        </View> */}
+        </View>
         <View style={styles.squares}>
           {squaresArray.map((item: any, index: number) => (
             <TouchableOpacity
