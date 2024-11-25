@@ -56,12 +56,12 @@ export default function HomeScreen() {
         style={styles.tinyLogo}
         source={require("../../assets/images/favicon.png")}
       /> */}
-   {/*    <FlatList
+       <FlatList
         data={DATA}
         renderItem={({ item }) => <Item title={item.title} />}
         keyExtractor={(item) => item.id}
         alwaysBounceVertical={false}
-      /> */} 
+      /> 
     </SafeAreaProvider>
   );
 }
