@@ -11,7 +11,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Tabs.Screen
@@ -45,6 +45,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "shapes" : "shapes-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="auth/login"
+        options={{
+          title: "Login",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "log-in" : "log-in-outline"}
               color={color}
             />
           ),

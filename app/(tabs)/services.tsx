@@ -1,94 +1,99 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React, { useState } from "react";
 import {
-  Avatar,
-  Button,
-  Card,
-  DataTable,
-  Surface,
+  Alert,
+  Pressable,
+  StyleSheet,
+  View,
+  Animated,
+  ScrollView,
+  Image,
+} from "react-native";
+import {
   Text,
+  TextInput,
 } from "react-native-paper";
 
 const Services = () => {
-  const [page, setPage] = React.useState<number>(0);
-  const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [itemsPerPage, onItemsPerPageChange] = React.useState(
-    numberOfItemsPerPageList[0]
-  );
+  const [num, setNum] = useState<any>(0);
 
-  const [items] = React.useState([
-    {
-      key: 1,
-      name: "Cupcake",
-      calories: 356,
-      fat: 16,
-    },
-    {
-      key: 2,
-      name: "Eclair",
-      calories: 262,
-      fat: 16,
-    },
-    {
-      key: 3,
-      name: "Frozen yogurt",
-      calories: 159,
-      fat: 6,
-    },
-    {
-      key: 4,
-      name: "Gingerbread",
-      calories: 305,
-      fat: 3.7,
-    },
-  ]);
-
-  const from = page * itemsPerPage;
-  const to = Math.min((page + 1) * itemsPerPage, items.length);
-
-  React.useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
+  const handleChangeValue = (e: any) => {
+    const val = e.target.value;
+    const numericValue = val ? parseInt(val) : 0;
+    if (!isNaN(numericValue)) {
+      setNum(numericValue);
+    } else {
+      Alert.alert("Invalid number!", "number should be not string", [
+        {
+          text: "Confirm",
+          style: "destructive",
+          onPress: (val) => {
+            console.log(val);
+          },
+        },
+      ]);
+    }
+  };
 
   return (
-    <Surface
-      style={{
-        height: "100%",
-        padding: 10,
-        backgroundColor: "transparent",
-        alignItems: "center",
-        gap: 5,
-      }}
-    >
-      <Text variant="headlineSmall">Services</Text>
-      <DataTable style={{ backgroundColor: "white" }}>
-        <DataTable.Header>
-          <DataTable.Title>Dessert</DataTable.Title>
-          <DataTable.Title numeric>Calories</DataTable.Title>
-          <DataTable.Title numeric>Fat</DataTable.Title>
-        </DataTable.Header>
-
-        {items.slice(from, to).map((item) => (
-          <DataTable.Row key={item.key}>
-            <DataTable.Cell>{item.name}</DataTable.Cell>
-            <DataTable.Cell numeric>{item.calories}</DataTable.Cell>
-            <DataTable.Cell numeric>{item.fat}</DataTable.Cell>
-          </DataTable.Row>
-        ))}
-
-        <DataTable.Pagination
-          page={page}
-          numberOfPages={Math.ceil(items.length / itemsPerPage)}
-          onPageChange={(page) => setPage(page)}
-          label={`${from + 1}-${to} of ${items.length}`}
-          numberOfItemsPerPage={itemsPerPage}
-          onItemsPerPageChange={onItemsPerPageChange}
-          showFastPaginationControls
-          selectPageDropdownLabel={"Rows per page"}
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <Text variant="headlineSmall">الخدمات</Text>
+      <View>
+        <TextInput
+          placeholder="Enter your name"
+          value={num}
+          onChange={handleChangeValue}
+          keyboardType="numeric"
         />
-      </DataTable>
-    </Surface>
+      </View>
+
+      <View style={styles.containerImage}>
+        <Image
+          style={styles.tinyLogo}
+          source={require("../../assets/images/favicon.png")}
+        />
+      </View>
+
+      <Text>
+        name : <Text> Mozaffar</Text>
+      </Text>
+      <Animated.View style={styles.navigateButton}>
+        <Pressable style={styles.pressed} onPress={() => router.push("/about")}>
+          <Text style={{ color: "blue" }}>Navigate</Text>
+          <Ionicons name="arrow-forward-circle-outline" size={32} color="blue" />
+        </Pressable>
+      </Animated.View>
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  containerImage: {
+    width: "100%",
+    height: 200,
+    padding: 20,
+  },
+  tinyLogo: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "stretch",
+  },
+  pressed: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  navigateButton: {
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 10,
+    position: "absolute",
+    bottom: 10,
+    right: 5,
+    zIndex: 1,
+  },
+});
 
 export default Services;

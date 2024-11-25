@@ -8,10 +8,12 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.test"
+      "bundleIdentifier": "com.yourcompany.test",
+      "favicon": "./assets/images/favicon.png"
     },
     "android": {
-      "package": "com.yourcompany.test"
+      "package": "com.yourcompany.test",
+      "favicon": "./assets/images/favicon.png"
     },
     "web": {
       "bundler": "metro",
