@@ -27,8 +27,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFontForLanguage } from "@/constants/font";
 
-import * as Localization from "expo-localization";
-
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon="folder" />;
 
 const About = () => {
