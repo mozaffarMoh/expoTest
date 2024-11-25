@@ -52,16 +52,16 @@ export default function HomeScreen() {
       >
         <Text style={{ color: "white" }}>prss me</Text>
       </Pressable>
-      <Image
+  {/*     <Image
         style={styles.tinyLogo}
         source={require("../../assets/images/favicon.png")}
-      />
+      /> */}
    {/*    <FlatList
         data={DATA}
         renderItem={({ item }) => <Item title={item.title} />}
         keyExtractor={(item) => item.id}
         alwaysBounceVertical={false}
-      /> */}
+      /> */} 
     </SafeAreaProvider>
   );
 }
