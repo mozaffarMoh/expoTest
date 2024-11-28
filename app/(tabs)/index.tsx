@@ -16,8 +16,9 @@ import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useColor } from "@/custom-hooks/useColor";
+import LocationComponent from "@/components/device-resources/LocationComponent";
 
-const DATA = [
+/* const DATA = [
   { id: "1", title: "First Item" },
   { id: "2", title: "Second Item" },
   { id: "3", title: "Third Item" },
@@ -54,7 +55,7 @@ const DATA = [
   { id: "34", title: "Thirty-Fourth Item" },
   { id: "35", title: "Thirty-Fifth Item" },
 ];
-
+ */
 export default function HomeScreen() {
   const { i18n } = useTranslation();
   const textColor = useColor("normal");
@@ -83,8 +84,10 @@ export default function HomeScreen() {
               Project
             </Text>
           </Surface>
-
-          <FlatList
+          <View style={{width:'100%',height:300,backgroundColor:'#cc0000'}}>
+            <LocationComponent />
+          </View>
+          {/*          <FlatList
             data={DATA}
             renderItem={({ item }) => <Item title={item.title} />}
             keyExtractor={(item) => item.id}
@@ -96,7 +99,7 @@ export default function HomeScreen() {
             )}
             alwaysBounceVertical={false}
             style={{ marginBottom: 200 }} // Adjust as necessary
-          />
+          /> */}
         </SafeAreaView>
       </KeyboardAvoidingView>
     </>
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 100,
-    marginBottom:10,
+    marginBottom: 10,
   },
   gradientOverlay: {
     padding: 20,

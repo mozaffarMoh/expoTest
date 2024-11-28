@@ -62,6 +62,7 @@ const Services = () => {
           </Text>
         </View>
 
+      
         <Animated.View style={styles.navigateButton}>
           <Pressable
             style={styles.pressed}
