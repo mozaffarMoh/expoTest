@@ -1,22 +1,26 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import * as Localization from 'expo-localization';
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Or use SecureStore if preferred
-
 import translationEN from "./locales/en.json";
 import translationAR from "./locales/ar.json";
 import { I18nManager } from "react-native";
+import * as Localization from "expo-localization";
+
 
 // Load the stored language preference
 const getStoredLanguage = async () => {
+  const deviceLang = Localization?.locales?.[0]?.split("-")?.[0] || 'en'; // Detect the device language
+
   try {
-    const storedLanguage = await AsyncStorage.getItem('language');
-    return storedLanguage || Localization.locale.split('-')?.[0]; // Default to device locale if no preference is stored
+    const storedLanguage = await AsyncStorage.getItem("language");
+    const language = storedLanguage || deviceLang; // Default to Arabic if nothing is set
+    return language;
   } catch (error) {
     console.error("Error fetching stored language: ", error);
-    return Localization.locale.split('-')?.[0]; // Fallback to device locale
+    return deviceLang || "en";
   }
 };
+
 
 // Initialize i18n
 getStoredLanguage().then((language) => {

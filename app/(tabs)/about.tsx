@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,18 +7,10 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import {
-  Avatar,
-  Button as ButtonP,
-  Card,
-  PaperProvider,
-  Text,
-} from "react-native-paper";
+import { Avatar, Button as ButtonP, Card, Text } from "react-native-paper";
 import { useTranslation } from "react-i18next";
 import * as Updates from "expo-updates";
 import {
-  Gesture,
-  GestureDetector,
   Directions,
   State,
   FlingGestureHandler,
@@ -36,14 +28,18 @@ const About = () => {
   const [gesVal, setGesVal] = useState(false);
   const fontFamily = getFontForLanguage(i18n.language);
 
+  console.log('currentDir : ',i18n.dir());
+  console.log('Manage isRTL : ',I18nManager.isRTL);
+
   const changeLanguage = async (lang: string) => {
     try {
       await AsyncStorage.setItem("language", lang);
       i18n.changeLanguage(lang);
       const isRTL = lang === "ar";
-
-      if (I18nManager.isRTL !== isRTL) {
-        I18nManager.forceRTL(isRTL);
+  
+        I18nManager.forceRTL(true); // Force the new layout direction
+        I18nManager.allowRTL(true); // Allow the layout to reflect RTL
+  
         Alert.alert(
           "Restart Required",
           "The app needs to restart to apply the new language direction.",
@@ -51,19 +47,18 @@ const About = () => {
             {
               text: "Restart Now",
               onPress: async () => {
-                // This reloads the app
+                // This reloads the app and applies RTL directionality
                 await Updates.reloadAsync();
               },
             },
           ]
         );
-        // Reload the app to apply the new layout direction
-      }
+      
     } catch (error) {
       console.error("Error changing language:", error);
     }
   };
-
+  
   const onSwipe = (event: any) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       console.log("Swiped Left!");

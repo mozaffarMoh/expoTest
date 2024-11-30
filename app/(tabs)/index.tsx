@@ -57,7 +57,7 @@ import LocationComponent from "@/components/device-resources/LocationComponent";
 ];
  */
 export default function HomeScreen() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const textColor = useColor("normal");
   const fontFamily = getFontForLanguage(i18n.language);
 
@@ -81,10 +81,12 @@ export default function HomeScreen() {
         <SafeAreaView style={{ flexGrow: 1 }}>
           <Surface style={styles.surface}>
             <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
-              Project
+              {t("main")}
             </Text>
           </Surface>
-          <View style={{width:'100%',height:300,backgroundColor:'#cc0000'}}>
+          <View
+            style={{ width: "100%", height: 300, backgroundColor: "#cc0000" }}
+          >
             <LocationComponent />
           </View>
           {/*          <FlatList

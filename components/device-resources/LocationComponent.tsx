@@ -2,24 +2,13 @@ import { useState, useEffect } from "react";
 import { Platform, Text, View, StyleSheet, Button } from "react-native";
 import * as Device from "expo-device";
 import * as Location from "expo-location";
+import MapView, { Marker } from "react-native-maps";
 
 export default function LocationComponent() {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
   const [text, setText] = useState<string>(""); // Store the text to display
-
-  async function reverseGeocode(lat: any, lon: any) {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      return `${data.address.city}, ${data.address.state}, ${data.address.country}`;
-    } catch (error) {
-      console.error("Error fetching geocode:", error);
-      return "Could not retrieve address";
-    }
-  }
 
   async function getCurrentLocation() {
     setText("Waiting...");
@@ -35,28 +24,38 @@ export default function LocationComponent() {
       return;
     }
 
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
-    const address = await reverseGeocode(
-      location.coords.latitude,
-      location.coords.longitude
-    )
-      .then((res) => {
-        setText(res);
-        
-        console.log('Location is : ',res);
-      })
-      .catch((err) => {
-        console.log('Error Location is : ',err);
-        
-        setText(err);
-      });
+    try {
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setText("Location");
+    } catch {
+      setText("fail to catch the location");
+    }
   }
 
   return (
     <View style={styles.container}>
-      <Button title="get location" onPress={getCurrentLocation} />
+      <Button title="Get Location" onPress={getCurrentLocation} />
       <Text style={styles.paragraph}>{text}</Text>
+      {location && (
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+            title="You are here"
+          />
+        </MapView>
+      )}
     </View>
   );
 }
@@ -64,12 +63,16 @@ export default function LocationComponent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     padding: 20,
+  },
+  map: {
+    flex: 1, // Allow the map to take the remaining space
+    width: "100%",
   },
   paragraph: {
     fontSize: 18,
     textAlign: "center",
+    marginVertical: 10,
   },
 });

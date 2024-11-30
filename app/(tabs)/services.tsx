@@ -39,7 +39,7 @@ const Services = () => {
   return (
     <SafeAreaView style={{ flexGrow: 1 }}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <Text variant="headlineSmall">الخدمات</Text>
+        <Text variant="headlineSmall" style={{textAlign:'center'}}>الخدمات</Text>
         <View>
           <TextInput
             placeholder="Enter your name"

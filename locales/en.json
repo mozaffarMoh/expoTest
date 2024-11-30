@@ -1,4 +1,6 @@
 {
+  "main": "Main",
+  "user": "User Account",
   "about_title": "About",
   "change_language": "Switch Language",
   "card_title": "Card Title",
