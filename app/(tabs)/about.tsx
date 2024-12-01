@@ -7,7 +7,13 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { Avatar, Button as ButtonP, Card, Text } from "react-native-paper";
+import {
+  Avatar,
+  Button as ButtonP,
+  Card,
+  Surface,
+  Text,
+} from "react-native-paper";
 import { useTranslation } from "react-i18next";
 import * as Updates from "expo-updates";
 import {
@@ -24,41 +30,10 @@ const LeftContent = (props: any) => <Avatar.Icon {...props} icon="folder" />;
 
 const About = () => {
   const { i18n, t } = useTranslation();
-  const currentLanguage = i18n.language;
+  const isRTL = i18n.language == "ar";
   const [gesVal, setGesVal] = useState(false);
   const fontFamily = getFontForLanguage(i18n.language);
 
-  console.log('currentDir : ',i18n.dir());
-  console.log('Manage isRTL : ',I18nManager.isRTL);
-
-  const changeLanguage = async (lang: string) => {
-    try {
-      await AsyncStorage.setItem("language", lang);
-      i18n.changeLanguage(lang);
-      const isRTL = lang === "ar";
-  
-        I18nManager.forceRTL(true); // Force the new layout direction
-        I18nManager.allowRTL(true); // Allow the layout to reflect RTL
-  
-        Alert.alert(
-          "Restart Required",
-          "The app needs to restart to apply the new language direction.",
-          [
-            {
-              text: "Restart Now",
-              onPress: async () => {
-                // This reloads the app and applies RTL directionality
-                await Updates.reloadAsync();
-              },
-            },
-          ]
-        );
-      
-    } catch (error) {
-      console.error("Error changing language:", error);
-    }
-  };
-  
   const onSwipe = (event: any) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       console.log("Swiped Left!");
@@ -67,62 +42,64 @@ const About = () => {
   };
 
   return (
-    <SafeAreaView style={{ flexGrow: 1 }}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 20,
-          }}
-        >
-          <Text variant="titleLarge">{t("about_title")}</Text>
-          <Button
-            title={t("language_switch")}
-            onPress={() =>
-              changeLanguage(currentLanguage === "en" ? "ar" : "en")
-            }
-          />
-          <FlingGestureHandler
-            direction={Directions.LEFT} // Use Directions constants
-            onHandlerStateChange={onSwipe}
-          >
-            <View style={styles.container}>
-              <Text style={gesVal ? styles.text : styles.gesTest}>
-                Swipe Left
-              </Text>
-            </View>
-          </FlingGestureHandler>
-          <Card style={styles.card}>
-            <Card.Title
-              title={t("card_title")}
-              subtitle={t("card_subtitle")}
-              left={LeftContent}
-              titleStyle={{
-                fontFamily, // Custom font for title
-              }}
-              subtitleStyle={{
-                fontFamily, // Custom font for subtitle
-              }}
-            />
+    <GestureHandlerRootView
+      style={{ flex: 1, direction: isRTL ? "rtl" : "ltr" }}
+    >
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 20,
+        }}
+      >
+        <Text variant="titleLarge" style={{ color: "red", fontWeight: "bold" }}>
+          {t("about_title")}
+        </Text>
 
-            <Card.Content>
-              <Text variant="titleLarge" style={{ fontFamily }}>
-                {t("card_content_title")}
-              </Text>
-              <Text variant="bodyMedium" style={{ fontFamily }}>
-                {t("card_content_body")}
-              </Text>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-              <ButtonP>{t("cancel")}</ButtonP>
-              <ButtonP>{t("ok")}</ButtonP>
-            </Card.Actions>
-          </Card>
-        </ScrollView>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+        <FlingGestureHandler
+          direction={Directions.LEFT} // Use Directions constants
+          onHandlerStateChange={onSwipe}
+        >
+          <View style={styles.container}>
+            <Text style={gesVal ? styles.text : styles.gesTest}>
+              Swipe Left
+            </Text>
+          </View>
+        </FlingGestureHandler>
+
+        <View style={{ flexDirection: "row", gap: 2 }}>
+          <Button title={t("first")} />
+          <Button title={t("second")} />
+        </View>
+        <Card style={styles.card}>
+          <Card.Title
+            title={t("card_title")}
+            subtitle={t("card_subtitle")}
+            left={LeftContent}
+            titleStyle={{
+              fontFamily, // Custom font for title
+            }}
+            subtitleStyle={{
+              fontFamily, // Custom font for subtitle
+            }}
+          />
+
+          <Card.Content>
+            <Text variant="titleLarge" style={{ fontFamily }}>
+              {t("card_content_title")}
+            </Text>
+            <Text variant="bodyMedium" style={{ fontFamily }}>
+              {t("card_content_body")}
+            </Text>
+          </Card.Content>
+          <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+          <Card.Actions>
+            <ButtonP>{t("cancel")}</ButtonP>
+            <ButtonP>{t("ok")}</ButtonP>
+          </Card.Actions>
+        </Card>
+      </ScrollView>
+    </GestureHandlerRootView>
   );
 };
 

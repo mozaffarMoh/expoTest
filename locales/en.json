@@ -9,5 +9,7 @@
   "card_content_body": "Card Content Body",
   "cancel": "Cancel",
   "ok": "OK",
-  "language_switch": "Swtich language"
+  "language_switch": "Swtich language",
+  "first": "First",
+  "second": "Second"
 }

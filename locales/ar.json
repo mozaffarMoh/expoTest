@@ -1,6 +1,6 @@
 {
-  "main":"الرئيسية",
-  "user":"حساب المستخدم",
+  "main": "الرئيسية",
+  "user": "حساب المستخدم",
   "about_title": "حول",
   "change_language": "تغيير اللغة",
   "card_title": "عنوان البطاقة",
@@ -9,5 +9,7 @@
   "card_content_body": "محتوى البطاقة",
   "cancel": "إلغاء",
   "ok": "موافق",
-  "language_switch": "تغيير اللغة"
+  "language_switch": "تغيير اللغة",
+  "first": "الأول",
+  "second": "القاني"
 }

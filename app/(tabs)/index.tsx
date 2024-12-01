@@ -2,7 +2,7 @@ import DropdownSelectExample from "@/components/SelectExample";
 import FileUploadWithValidation from "@/components/validationZod/validationZod";
 import { getFontForLanguage } from "@/constants/font";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -58,6 +58,7 @@ import LocationComponent from "@/components/device-resources/LocationComponent";
  */
 export default function HomeScreen() {
   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language == "ar";
   const textColor = useColor("normal");
   const fontFamily = getFontForLanguage(i18n.language);
 
@@ -71,14 +72,13 @@ export default function HomeScreen() {
       <Text style={{ color: textColor }}>{title}</Text>
     </LinearGradient>
   );
-
   return (
     <>
       <StatusBar style="auto" />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <SafeAreaView style={{ flexGrow: 1 }}>
+        <SafeAreaView style={{ flexGrow: 1, direction: isRTL ? "rtl" : "ltr" }}>
           <Surface style={styles.surface}>
             <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
               {t("main")}
@@ -89,11 +89,12 @@ export default function HomeScreen() {
           >
             <LocationComponent />
           </View>
-          {/*          <FlatList
-            data={DATA}
-            renderItem={({ item }) => <Item title={item.title} />}
-            keyExtractor={(item) => item.id}
-            ListHeaderComponent={() => (
+          {/*
+            <FlatList
+              data={DATA}
+              renderItem={({ item }) => <Item title={item.title} />}
+              keyExtractor={(item) => item.id}
+              ListHeaderComponent={() => (
               <>
                 <DropdownSelectExample />
                 <FileUploadWithValidation />
@@ -101,7 +102,8 @@ export default function HomeScreen() {
             )}
             alwaysBounceVertical={false}
             style={{ marginBottom: 200 }} // Adjust as necessary
-          /> */}
+          />
+          */}
         </SafeAreaView>
       </KeyboardAvoidingView>
     </>

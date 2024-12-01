@@ -14,8 +14,10 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { useTranslation } from "react-i18next";
-import { I18nManager } from "react-native";
+import { Button, I18nManager } from "react-native";
 import CustomDrawerContent from "@/components/CustomDrawerContent";
+import LanguageToggle from "@/components/LanguageToggle";
+import { runDB } from "@/utils/database";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,6 +31,7 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    //runDB();
     if (loaded) {
       SplashScreen.hideAsync();
     }
@@ -45,6 +48,7 @@ export default function RootLayout() {
           screenOptions={{
             headerTitle: t("main"),
             drawerStyle: { width: 240 },
+            headerRight: () => <LanguageToggle />,
           }}
         >
           <Drawer.Screen

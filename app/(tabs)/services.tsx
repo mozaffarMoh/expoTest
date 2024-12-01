@@ -2,6 +2,7 @@ import { useColor } from "@/custom-hooks/useColor";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Alert,
   Pressable,
@@ -15,6 +16,8 @@ import { Text, TextInput } from "react-native-paper";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const Services = () => {
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language == "ar";
   const [num, setNum] = useState<any>(0);
   const textColor = useColor("normal");
 
@@ -37,52 +40,56 @@ const Services = () => {
   };
 
   return (
-    <SafeAreaView style={{ flexGrow: 1 }}>
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <Text variant="headlineSmall" style={{textAlign:'center'}}>الخدمات</Text>
-        <View>
-          <TextInput
-            placeholder="Enter your name"
-            value={num}
-            onChange={handleChangeValue}
-            keyboardType="numeric"
+    <ScrollView
+      contentContainerStyle={{
+        height: "100%",
+        direction: isRTL ? "rtl" : "ltr",
+      }}
+    >
+      <Text variant="headlineSmall" style={{ textAlign: "center" }}>
+        الخدمات
+      </Text>
+      <View>
+        <TextInput
+          placeholder="Enter your name"
+          value={num}
+          onChange={handleChangeValue}
+          keyboardType="numeric"
+        />
+      </View>
+
+      <View style={styles.containerImage}>
+        <Image
+          style={styles.tinyLogo}
+          source={require("../../assets/images/favicon.png")}
+        />
+      </View>
+
+      <View>
+        <Text style={{ color: textColor }}>
+          name: <Text style={{ color: textColor }}>Mozaffar</Text>
+        </Text>
+      </View>
+
+      <Animated.View style={styles.navigateButton}>
+        <Pressable
+          style={styles.pressed}
+          onPress={() =>
+            router.push({
+              pathname: "/screens/Screen1",
+              params: { userId: "123", name: "John" },
+            })
+          }
+        >
+          <Text style={{ color: "blue" }}>Navigate</Text>
+          <Ionicons
+            name="arrow-forward-circle-outline"
+            size={32}
+            color="blue"
           />
-        </View>
-
-        <View style={styles.containerImage}>
-          <Image
-            style={styles.tinyLogo}
-            source={require("../../assets/images/favicon.png")}
-          />
-        </View>
-
-        <View>
-          <Text style={{ color: textColor }}>
-            name: <Text style={{ color: textColor }}>Mozaffar</Text>
-          </Text>
-        </View>
-
-      
-        <Animated.View style={styles.navigateButton}>
-          <Pressable
-            style={styles.pressed}
-            onPress={() =>
-              router.push({
-                pathname: "/screens/Screen1",
-                params: { userId: "123", name: "John" },
-              })
-            }
-          >
-            <Text style={{ color: "blue" }}>Navigate</Text>
-            <Ionicons
-              name="arrow-forward-circle-outline"
-              size={32}
-              color="blue"
-            />
-          </Pressable>
-        </Animated.View>
-      </ScrollView>
-    </SafeAreaView>
+        </Pressable>
+      </Animated.View>
+    </ScrollView>
   );
 };
 
