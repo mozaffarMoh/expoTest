@@ -2,7 +2,7 @@ import DropdownSelectExample from "@/components/SelectExample";
 import FileUploadWithValidation from "@/components/validationZod/validationZod";
 import { getFontForLanguage } from "@/constants/font";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -11,12 +11,15 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
+  Button,
 } from "react-native";
 import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useColor } from "@/custom-hooks/useColor";
 import LocationComponent from "@/components/device-resources/LocationComponent";
+import axios from "axios";
 
 /* const DATA = [
   { id: "1", title: "First Item" },
@@ -61,6 +64,7 @@ export default function HomeScreen() {
   const isRTL = i18n.language == "ar";
   const textColor = useColor("normal");
   const fontFamily = getFontForLanguage(i18n.language);
+  const [products, setProducts]: any = useState([]);
 
   const Item = ({ title }: any) => (
     <LinearGradient
@@ -72,41 +76,45 @@ export default function HomeScreen() {
       <Text style={{ color: textColor }}>{title}</Text>
     </LinearGradient>
   );
+
+  const getProducts = () => {
+    axios
+      .get("https://fakestoreapi.com/products")
+      .then((res: any) => {
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <>
+    <View style={{ direction: isRTL ? "rtl" : "ltr" }}>
       <StatusBar style="auto" />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <SafeAreaView style={{ flexGrow: 1, direction: isRTL ? "rtl" : "ltr" }}>
-          <Surface style={styles.surface}>
-            <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
-              {t("main")}
-            </Text>
-          </Surface>
-          <View
-            style={{ width: "100%", height: 300, backgroundColor: "#cc0000" }}
-          >
-            <LocationComponent />
-          </View>
-          {/*
-            <FlatList
-              data={DATA}
-              renderItem={({ item }) => <Item title={item.title} />}
-              keyExtractor={(item) => item.id}
-              ListHeaderComponent={() => (
-              <>
-                <DropdownSelectExample />
-                <FileUploadWithValidation />
-              </>
-            )}
-            alwaysBounceVertical={false}
-            style={{ marginBottom: 200 }} // Adjust as necessary
-          />
-          */}
-        </SafeAreaView>
-      </KeyboardAvoidingView>
-    </>
+
+      <Surface style={styles.surface}>
+        <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
+          {t("main")}
+        </Text>
+      </Surface>
+
+      <Button title="get products" onPress={getProducts} />
+
+      <View style={{ height:430}}>
+        <FlatList
+          data={products.slice(0, 10)}
+          renderItem={({ item }) => <Item title={item.title} />}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={() => (
+            <>
+              <DropdownSelectExample />
+              <FileUploadWithValidation />
+            </>
+          )}
+          alwaysBounceVertical={false}
+        />
+      </View>
+    </View>
   );
 }
 
