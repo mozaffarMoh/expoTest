@@ -20,6 +20,12 @@ import { StatusBar } from "expo-status-bar";
 import { useColor } from "@/custom-hooks/useColor";
 import LocationComponent from "@/components/device-resources/LocationComponent";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  scheduleAndCancel,
+  sendPushNotification,
+} from "@/constants/notifications";
+import * as Notifications from "expo-notifications";
 
 /* const DATA = [
   { id: "1", title: "First Item" },
@@ -88,6 +94,14 @@ export default function HomeScreen() {
       });
   };
 
+  let message = {
+    sound: "default",
+    title: "مرحبا لقد جاءتك رسالة جديدة من الحاسوب",
+    body: "تفقد محتوى الايميل",
+    badge: 3,
+    data: { someData: "goes here" },
+  };
+
   return (
     <View style={{ direction: isRTL ? "rtl" : "ltr" }}>
       <StatusBar style="auto" />
@@ -98,8 +112,20 @@ export default function HomeScreen() {
         </Text>
       </Surface>
 
-      <Button title="get products" onPress={getProducts} />
+      <Surface style={{ gap: 10 }}>
+        <Button
+          title="push notification"
+          onPress={() => sendPushNotification(message)}
+        />
 
+        <Button
+          title="local notification"
+          color={"#ff55cc"}
+          onPress={() => scheduleAndCancel(message)}
+        />
+      </Surface>
+      {/*
+      <Button title="get products" onPress={getProducts} />
       <View style={{ height:430}}>
         <FlatList
           data={products.slice(0, 10)}
@@ -114,6 +140,7 @@ export default function HomeScreen() {
           alwaysBounceVertical={false}
         />
       </View>
+      */}
     </View>
   );
 }
