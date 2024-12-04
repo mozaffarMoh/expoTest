@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import NetInfo from "@react-native-community/netinfo";
 import { openDatabase, saveDataInSQLite } from "@/utils/database";
 
-const useSQList = (dataFetched:any, getDataFetched:any, tableName:string) => {
+const useSQList = (
+  dataFetched: any,
+  getDataFetched: any,
+  tableName: string
+) => {
   const [data, setData]: any = useState([]);
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
+
   // Check the network status
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state: any) => {
@@ -13,6 +18,7 @@ const useSQList = (dataFetched:any, getDataFetched:any, tableName:string) => {
     return () => unsubscribe(); // Clean up the listener
   }, []);
 
+  /* fetch the data from api if online true */
   useEffect(() => {
     const fetchAndStoreData = async () => {
       if (isOnline === true) {
@@ -23,6 +29,7 @@ const useSQList = (dataFetched:any, getDataFetched:any, tableName:string) => {
     fetchAndStoreData();
   }, [isOnline]);
 
+  /* save date if comes from api otherwise got it from sqlite */
   useEffect(() => {
     const saveOrFetchData = async () => {
       const db = await openDatabase();
