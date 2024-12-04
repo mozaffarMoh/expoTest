@@ -125,7 +125,9 @@ export default function HomeScreen() {
       />
 
       {/*  <SqliteData /> */}
-      <LocationComponent />
+      <View style={{ width: '100%', height: 400 }}>
+        <LocationComponent />
+      </View>
       {/*
       <Button title="get products" onPress={getProducts} />
       <View style={{ height:430}}>
