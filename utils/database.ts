@@ -1,26 +1,43 @@
 import * as SQLite from 'expo-sqlite';
 
-export async function runDB() {
-    try {
-        const db = await SQLite.openDatabaseAsync('places.db');
+let cachedDb: SQLite.SQLiteDatabase | null = null;
 
-        // Initialize the database
-        await db.execAsync(`
-            PRAGMA journal_mode = WAL;
-            CREATE TABLE IF NOT EXISTS test (
-                id INTEGER PRIMARY KEY NOT NULL,
-                value TEXT NOT NULL,
-                intValue INTEGER
-            );
-        `);
-
-        // Insert some data
-        await db.runAsync('INSERT INTO test (value, intValue) VALUES (?, ?)', ['test1', 123]);
-
-        // Fetch data
-        const allRows = await db.getAllAsync('SELECT * FROM test');
-        console.log('All Rows:', allRows);
-    } catch (error) {
-        console.error('Database Error:', error);
+export const openDatabase = async () => {
+    if (!cachedDb) {
+        const db = await SQLite.openDatabaseAsync('test.db');
+        cachedDb = db;
     }
-}
+    return cachedDb;
+};
+
+
+export const saveDataInSQLite = async (
+    db: SQLite.SQLiteDatabase,
+    tableName: string,
+    data: Array<Record<string, any>>
+) => {
+    if (!data.length) return console.warn(`No data to save in "${tableName}".`);
+
+    try {
+        const columns = Object.keys(data[0]);
+
+        // Create table if it doesn't exist
+        await db.execAsync(`
+        CREATE TABLE IF NOT EXISTS ${tableName} (${columns.map((col) => `${col} TEXT`).join(", ")});
+      `);
+
+        // Clear existing data
+        await db.execAsync(`DELETE FROM ${tableName};`);
+
+        // Insert new data
+        const insertSQL = `INSERT INTO ${tableName} (${columns.join(", ")}) VALUES (${columns.map(() => "?").join(", ")});`;
+        for (const item of data) {
+            await db.runAsync(insertSQL, columns.map((col) => item[col] ?? null));
+        }
+
+        console.log(`Data successfully saved in "${tableName}".`);
+    } catch (error) {
+        console.error(`Error saving data in "${tableName}":`, error);
+    }
+};
+

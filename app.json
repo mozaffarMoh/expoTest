@@ -35,9 +35,12 @@
         {
           "icon": "./assets/images/favicon.svg",
           "color": "#0000ff",
+          "defaultChannel": "default",
           "sounds": [
+            "./assets/sound.mp3",
             "./assets/sound.mp3"
-          ]
+          ],
+          "enableBackgroundRemoteNotifications": false
         }
       ],
       [

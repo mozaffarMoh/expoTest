@@ -17,8 +17,9 @@ import { useTranslation } from "react-i18next";
 import { Button, I18nManager } from "react-native";
 import CustomDrawerContent from "@/components/CustomDrawerContent";
 import LanguageToggle from "@/components/LanguageToggle";
-import { runDB } from "@/utils/database";
 import * as Notifications from "expo-notifications";
+import { SQLiteProvider } from "expo-sqlite";
+import { migrateDbIfNeeded } from "@/utils/database";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -44,33 +45,35 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer
-          screenOptions={{
-            headerTitle: t("main"),
-            drawerStyle: { width: 240 },
-            headerRight: () => <LanguageToggle />,
-          }}
-        >
-          <Drawer.Screen
-            name="(tabs)"
-            options={{
-              drawerLabel: t("main"),
-              title: t("main"),
+      <SQLiteProvider databaseName="test.db" onInit={migrateDbIfNeeded}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Drawer
+            screenOptions={{
+              headerTitle: t("main"),
+              drawerStyle: { width: 240 },
+              headerRight: () => <LanguageToggle />,
             }}
-          />
+          >
+            <Drawer.Screen
+              name="(tabs)"
+              options={{
+                drawerLabel: t("main"),
+                title: t("main"),
+              }}
+            />
 
-          <Drawer.Screen
-            name="screens/Screen1"
-            options={{
-              drawerLabel: t("user"),
-              title: t("user"),
-            }}
-          />
-        </Drawer>
+            <Drawer.Screen
+              name="screens/Screen1"
+              options={{
+                drawerLabel: t("user"),
+                title: t("user"),
+              }}
+            />
+          </Drawer>
 
-        <StatusBar style="auto" />
-      </GestureHandlerRootView>
+          <StatusBar style="auto" />
+        </GestureHandlerRootView>
+      </SQLiteProvider>
     </ThemeProvider>
   );
 }

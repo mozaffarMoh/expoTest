@@ -14,7 +14,7 @@ import {
   Pressable,
   Button,
 } from "react-native";
-import { Surface } from "react-native-paper";
+import { Snackbar, Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useColor } from "@/custom-hooks/useColor";
@@ -26,6 +26,8 @@ import {
   sendPushNotification,
 } from "@/constants/notifications";
 import * as Notifications from "expo-notifications";
+import SqliteData from "@/components/SqliteData";
+import CustomSnackbar from "@/components/CustomSnackbar";
 
 /* const DATA = [
   { id: "1", title: "First Item" },
@@ -71,6 +73,7 @@ export default function HomeScreen() {
   const textColor = useColor("normal");
   const fontFamily = getFontForLanguage(i18n.language);
   const [products, setProducts]: any = useState([]);
+  const [isSnackbarVisible, setIsSnackbarVisible]: any = useState(false);
 
   const Item = ({ title }: any) => (
     <LinearGradient
@@ -110,20 +113,15 @@ export default function HomeScreen() {
         <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
           {t("main")}
         </Text>
+        <Button title="open sncakbar" onPress={() => setIsSnackbarVisible(true)} />
       </Surface>
 
-      <Surface style={{ gap: 10 }}>
-        <Button
-          title="push notification"
-          onPress={() => sendPushNotification(message)}
-        />
+      <CustomSnackbar
+        visible={isSnackbarVisible}
+        onDismiss={() => setIsSnackbarVisible(false)}
+      />
 
-        <Button
-          title="local notification"
-          color={"#ff55cc"}
-          onPress={() => scheduleAndCancel(message)}
-        />
-      </Surface>
+      <SqliteData />
       {/*
       <Button title="get products" onPress={getProducts} />
       <View style={{ height:430}}>
