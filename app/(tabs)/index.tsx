@@ -113,7 +113,10 @@ export default function HomeScreen() {
         <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
           {t("main")}
         </Text>
-        <Button title="open sncakbar" onPress={() => setIsSnackbarVisible(true)} />
+        <Button
+          title="open sncakbar"
+          onPress={() => setIsSnackbarVisible(true)}
+        />
       </Surface>
 
       <CustomSnackbar
@@ -121,7 +124,8 @@ export default function HomeScreen() {
         onDismiss={() => setIsSnackbarVisible(false)}
       />
 
-      <SqliteData />
+      {/*  <SqliteData /> */}
+      <LocationComponent />
       {/*
       <Button title="get products" onPress={getProducts} />
       <View style={{ height:430}}>

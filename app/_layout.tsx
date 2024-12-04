@@ -19,7 +19,6 @@ import CustomDrawerContent from "@/components/CustomDrawerContent";
 import LanguageToggle from "@/components/LanguageToggle";
 import * as Notifications from "expo-notifications";
 import { SQLiteProvider } from "expo-sqlite";
-import { migrateDbIfNeeded } from "@/utils/database";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -45,7 +44,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SQLiteProvider databaseName="test.db" onInit={migrateDbIfNeeded}>
+      <SQLiteProvider databaseName="test.db">
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Drawer
             screenOptions={{
