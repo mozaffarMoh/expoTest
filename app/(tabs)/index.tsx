@@ -125,8 +125,10 @@ export default function HomeScreen() {
       />
 
       {/*  <SqliteData /> */}
-      <View style={{ width: '100%', height: 400 }}>
+      <View style={{ width: "100%", height: 400 }}>
         <LocationComponent />
+        <Button title="send global" onPress={() => sendPushNotification(message)} />
+        <Button title="send local" color="pink" onPress={() => scheduleAndCancel(message)} />
       </View>
       {/*
       <Button title="get products" onPress={getProducts} />

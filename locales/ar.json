@@ -1,5 +1,8 @@
 {
   "main": "الرئيسية",
+  "services": "الخدمات",
+  "about": "حول",
+  "login": "تسجيل الدخول",
   "user": "حساب المستخدم",
   "about_title": "حول",
   "change_language": "تغيير اللغة",

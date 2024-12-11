@@ -3,6 +3,8 @@ import React from "react";
 import { TabBarIcon } from "@/components/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { DrawerToggleButton } from "@react-navigation/drawer";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -11,7 +13,9 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
-        headerShown: false,
+        headerShown: true,
+        headerLeft: () => <DrawerToggleButton />,
+        headerRight: () => <LanguageToggle />,
       }}
     >
       <Tabs.Screen
