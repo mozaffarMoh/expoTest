@@ -5,23 +5,28 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import LanguageToggle from "@/components/LanguageToggle";
+import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { t } = useTranslation();
+  let tintColor = Colors[colorScheme ?? "dark"].tint;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
+        tabBarActiveTintColor: tintColor,
         headerShown: true,
-        headerLeft: () => <DrawerToggleButton />,
+        headerLeft: () => (
+          <DrawerToggleButton tintColor={tintColor} />
+        ),
         headerRight: () => <LanguageToggle />,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: t("main"),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
@@ -33,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="about"
         options={{
-          title: "About",
+          title: t("about"),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "information" : "information-outline"}
@@ -45,7 +50,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="services"
         options={{
-          title: "Services",
+          title: t("services"),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "shapes" : "shapes-outline"}
@@ -57,7 +62,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="auth/login"
         options={{
-          title: "Login",
+          title: t("login"),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "log-in" : "log-in-outline"}

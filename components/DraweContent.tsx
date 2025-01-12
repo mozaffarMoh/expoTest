@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 
 export default function DrawerContent() {
   const { t } = useTranslation();
-  // Define the navigation items
+
   const navigationItems = [
     { name: t("main"), route: "/" },
     { name: t("about"), route: "/about" },
     { name: t("services"), route: "/services" },
     { name: t("login"), route: "/auth/login" },
+    { name: t("screen1"), route: "screens/Screen1" },
   ];
 
   return (
@@ -20,9 +21,7 @@ export default function DrawerContent() {
           <TouchableOpacity
             key={index}
             style={styles.navItem}
-            onPress={() =>
-              router.push({ pathname: item.route, params: { name: item.name } })
-            }
+            onPress={() => router.push(item.route)}
           >
             <Text style={styles.navText}>{item.name}</Text>
           </TouchableOpacity>

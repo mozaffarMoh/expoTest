@@ -40,7 +40,6 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
-  const { name }:any = useGlobalSearchParams();
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -48,8 +47,7 @@ export default function RootLayout() {
         <StatusBar style="auto" />
         <Drawer
           screenOptions={{
-            headerShown: true,
-            title: name,
+            headerShown: false,
             headerRight: () => <LanguageToggle />,
           }}
           drawerContent={() => <DrawerContent />}

@@ -13,6 +13,7 @@ import {
   Platform,
   Pressable,
   Button,
+  Dimensions,
 } from "react-native";
 import { Snackbar, Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -28,6 +29,10 @@ import {
 import * as Notifications from "expo-notifications";
 import SqliteData from "@/components/SqliteData";
 import CustomSnackbar from "@/components/CustomSnackbar";
+import Slider from "@/components/Slider";
+import RangeSlider from "@/components/RangeSlider";
+
+const { width: screenWidth } = Dimensions.get("window");
 
 /* const DATA = [
   { id: "1", title: "First Item" },
@@ -70,66 +75,34 @@ import CustomSnackbar from "@/components/CustomSnackbar";
 export default function HomeScreen() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language == "ar";
-  const textColor = useColor("normal");
   const fontFamily = getFontForLanguage(i18n.language);
-  const [products, setProducts]: any = useState([]);
   const [isSnackbarVisible, setIsSnackbarVisible]: any = useState(false);
 
-  const Item = ({ title }: any) => (
-    <LinearGradient
-      colors={["#00559955", "#550099"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      style={styles.gradientOverlay}
-    >
-      <Text style={{ color: textColor }}>{title}</Text>
-    </LinearGradient>
-  );
-
-  const getProducts = () => {
-    axios
-      .get("https://fakestoreapi.com/products")
-      .then((res: any) => {
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  let message = {
-    sound: "default",
-    title: "مرحبا لقد جاءتك رسالة جديدة من الحاسوب",
-    body: "تفقد محتوى الايميل",
-    badge: 3,
-    data: { someData: "goes here" },
-  };
+  const data = [
+    {
+      title: "Amazing Sunset",
+      description: "Experience the beautiful sunset over the ocean.",
+      imageUrl: "https://picsum.photos/700",
+    },
+    {
+      title: "Mountain Adventure",
+      description: "Climb the highest peaks and enjoy breathtaking views.",
+      imageUrl: "https://picsum.photos/800",
+    },
+    {
+      title: "City Lights",
+      description: "The city comes alive at night with vibrant lights.",
+      imageUrl: "https://picsum.photos/900",
+    },
+  ];
 
   return (
-    <View style={{ direction: isRTL ? "rtl" : "ltr" }}>
+    <View>
       <StatusBar style="auto" />
-
-      <Surface style={styles.surface}>
-        <Text style={{ color: "blue", fontSize: 50, fontFamily }}>
-          {t("main")}
-        </Text>
-        <Button
-          title="open sncakbar"
-          onPress={() => setIsSnackbarVisible(true)}
-        />
-      </Surface>
-
-      <CustomSnackbar
-        visible={isSnackbarVisible}
-        onDismiss={() => setIsSnackbarVisible(false)}
-      />
-
-      {/*  <SqliteData /> */}
-      <View style={{ width: "100%", height: 400 }}>
-        <LocationComponent />
-        <Button title="send global" onPress={() => sendPushNotification(message)} />
-        <Button title="send local" color="pink" onPress={() => scheduleAndCancel(message)} />
+      <View style={{ height: screenWidth, width: "100%" }}>
+        <Slider data={data} />
       </View>
+
       {/*
       <Button title="get products" onPress={getProducts} />
       <View style={{ height:430}}>
